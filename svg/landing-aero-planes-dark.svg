@@ -1,0 +1,278 @@
+<svg width="400" height="383" viewBox="0 0 338 383" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="planes">
+	<path id="dot-3-line" d="M322.148 62.9639C322.148 62.9639 366.851 137.845 300.399 204.8C233.946 271.756 278.65 346.636 278.65 346.636" stroke="url(#paint0_linear_843_773)"/>
+
+    <circle cx="321.300" cy="61.5702" fill="none" r="50" stroke="white" stroke-width="1">
+      <animate attributeName="r" from="4" to="30" dur="2.5s" begin="0s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.3" to="0" dur="2.5s" begin="0s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="321.300" cy="61.5702" fill="white" r="1.6"/>
+  
+	<path id="dot-2-line" d="M266.684 96.4719C266.684 96.4719 251.857 130.281 294.783 173.532C337.71 216.784 306 269.032 306 269.032" stroke="url(#paint1_linear_843_773)"/>
+
+    <circle cx="266.449" cy="96.3312" fill="none" r="20" stroke="white" stroke-width="1">
+      <animate attributeName="r" from="4" to="20" dur="2.5s" begin="1.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.3" to="0" dur="2.5s" begin="0s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="266.449" cy="96.3312" fill="white" r="1.6"/>
+  
+	<path id="dot-1-line" d="M20.8976 1.51147C20.8976 1.51147 -39.1397 102.078 50.1071 192C139.354 281.922 79.3166 382.488 79.3166 382.488" stroke="url(#paint2_linear_843_773)">
+      <animateMotion 
+        id="lc01anim1"
+        begin="0; lc01anim2.end"
+        dur="2s"
+        path="M 0 50 L 0 20"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="lc01anim2"
+        begin="lc01anim1.end"
+        dur="2s"
+        path="M 0 20 L 0 50"
+      >
+      </animateMotion>
+    </path>
+
+    <circle cx="20.2632" cy="2.04367" fill="none" r="10" stroke="white" stroke-width="1">
+      <animate attributeName="r" from="4" to="20" dur="1.5s" begin="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" from="0.3" to="0" dur="1.5s" begin="0s" repeatCount="indefinite"/>
+      <animateMotion 
+        id="lc01anim1"
+        begin="0; lc01anim2.end"
+        dur="2s"
+        path="M 0 50 L 0 20"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="lc01anim2"
+        begin="lc01anim1.end"
+        dur="2s"
+        path="M 0 20 L 0 50"
+      >
+      </animateMotion>
+    </circle>
+    <circle cx="20.2632" cy="2.04367" fill="white" r="1.6">
+      <animateMotion 
+        id="lc01anim1"
+        begin="0; lc01anim2.end"
+        dur="2s"
+        path="M 0 50 L 0 20"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="lc01anim2"
+        begin="lc01anim1.end"
+        dur="2s"
+        path="M 0 20 L 0 50"
+      >
+      </animateMotion>
+    </circle>
+  
+	<path id="plane-3-line" d="M287.9 39.4246V218.583" stroke="url(#paint3_linear_843_773)">
+      <animateMotion 
+        id="l03anim1"
+        begin="0; l03anim4.end"
+        dur="4s"
+        path="M 0 0 L 0 0"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="l03anim2"
+        begin="l03anim1.end"
+        dur="3s"
+        path="M 0 0 L 0 20"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="l03anim3"
+        begin="l03anim2.end"
+        dur="5s"
+        path="M 0 20 L 0 0"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="l03anim4"
+        begin="l03anim3.end"
+        dur="5s"
+        path="M 0 0 L 0 0"
+      >
+      </animateMotion>
+    </path>
+  
+	<path id="plane-3" d="M276.431 37.2181C279.186 35.3511 283.059 32.7225 284.809 31.5562C284.809 31.5562 284.824 31.9386 284.809 32.1829C284.664 34.5321 280.961 36.8221 280.961 36.8221C280.874 36.9353 280.822 37.0745 280.818 37.2181L280.822 38.8066C280.822 38.9981 280.905 39.1765 281.057 39.294C281.205 39.4072 281.397 39.4507 281.579 39.4072L285.287 38.5107L285.453 39.0068C285.544 39.2549 285.775 39.4246 286.036 39.4246C288.508 39.4246 286.555 39.4246 289.578 39.4246C289.839 39.4246 290.07 39.2549 290.161 39.0068L290.327 38.5107L294.035 39.4072C294.217 39.4507 294.409 39.4072 294.557 39.294C294.701 39.1765 294.792 38.9981 294.792 38.8066L294.796 37.2181C294.792 37.0745 294.74 36.9353 294.653 36.8221C294.653 36.8221 290.95 34.5321 290.806 32.1829C290.791 31.9386 290.806 31.5562 290.806 31.5562C292.555 32.7225 296.428 35.3511 299.183 37.2181C299.348 37.3313 299.553 37.353 299.74 37.2878C299.823 37.2573 299.901 37.2051 299.962 37.1441C300.036 37.0702 300.088 36.9744 300.119 36.8656L300.846 34.1369C300.898 33.9367 300.85 33.7322 300.724 33.5799L298.813 31.3299L298.813 25.5592C298.813 24.1405 298.234 22.7609 297.225 21.7686C297.112 21.6555 296.946 21.5946 296.785 21.5989C296.624 21.5946 296.45 21.6642 296.35 21.7817C295.362 22.787 294.818 24.1144 294.814 25.52L294.818 26.6124L291.445 22.639L291.319 20.3194C291.306 19.993 291.032 19.7363 290.71 19.7363L289.926 19.7363L289.413 12.0594C289.413 12.0159 289.404 11.9724 289.395 11.9375L288.403 8.22966C288.329 7.96419 288.086 7.77271 287.807 7.77271C287.528 7.77271 287.285 7.96419 287.211 8.22966L286.219 11.9375C286.21 11.9724 286.201 12.0159 286.201 12.0594L285.688 19.7363L284.904 19.7363C284.582 19.7363 284.308 19.993 284.295 20.3194L284.169 22.639L280.796 26.6124L280.8 25.52C280.796 24.1143 280.252 22.787 279.255 21.773C279.016 21.5336 278.629 21.5293 278.389 21.7686C277.406 22.7609 276.801 24.1405 276.801 25.5592L276.801 31.3299L274.89 33.5799C274.764 33.7322 274.716 33.9367 274.769 34.1369L275.495 36.8656C275.543 37.0615 275.687 37.2138 275.874 37.2878C276.061 37.353 276.266 37.3313 276.431 37.2181Z" fill="white">
+    <animateMotion 
+        id="p03anim1"
+        begin="0; p03anim4.end"
+        dur="4s"
+        path="M 0 0 L 0 0"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="p03anim2"
+        begin="p03anim1.end"
+        dur="3s"
+        path="M 0 0 L 0 20"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="p03anim3"
+        begin="p03anim2.end"
+        dur="5s"
+        path="M 0 20 L 0 0"
+      >
+      </animateMotion>
+       <animateMotion 
+        id="p03anim4"
+        begin="p03anim3.end"
+        dur="5s"
+        path="M 0 0 L 0 0"
+      >
+      </animateMotion>  
+    </path>
+
+  
+	<path id="plane-2-line" d="M179.087 142.083L179.087 291.636" stroke="url(#paint4_linear_843_773)">
+       <animateMotion 
+        id="l02anim1"
+        begin="0; l02anim4.end"
+        dur="2s"
+        path="M 0 20 L 0 -50"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="l02anim2"
+        begin="l02anim1.end"
+        dur="1s"
+        path="M 0 -50 L 0 20"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="l02anim3"
+        begin="l02anim2.end"
+        dur="2s"
+        path="M 0 20 L 0 -50"
+      >
+      </animateMotion>
+       <animateMotion 
+        id="l02anim4"
+        begin="l02anim3.end"
+        dur="2s"
+        path="M 0 -50 L 0 20"
+      >
+      </animateMotion>
+    </path>
+  
+	<path id="plane-2" fill-rule="evenodd" clip-rule="evenodd" d="M181.427 114.926V121.134L193.19 123.382C194.302 123.595 195.105 124.568 195.102 125.7L195.1 126.547C195.097 127.845 194.044 128.895 192.746 128.895H181.427V138.454L184.653 139.305C185.067 139.414 185.355 139.789 185.354 140.217L185.352 141.144C185.351 141.663 184.929 142.083 184.41 142.083H174.191C173.68 142.083 173.262 141.676 173.249 141.166L173.225 140.235C173.214 139.799 173.504 139.412 173.926 139.3L177.135 138.454V128.895H165.882C164.606 128.895 163.562 127.878 163.529 126.602L163.507 125.747C163.477 124.594 164.286 123.59 165.418 123.374L177.135 121.134V114.926C177.135 113.911 177.723 111.034 178.3 108.386C178.518 107.386 180.044 107.386 180.262 108.386C180.838 111.034 181.427 113.911 181.427 114.926Z" fill="white">
+      <animateMotion 
+        id="p02anim1"
+        begin="0; p02anim4.end"
+        dur="2s"
+        path="M 0 20 L 0 -50"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="p02anim2"
+        begin="p02anim1.end"
+        dur="1s"
+        path="M 0 -50 L 0 20"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="p02anim3"
+        begin="p02anim2.end"
+        dur="2s"
+        path="M 0 20 L 0 -50"
+      >
+      </animateMotion>
+       <animateMotion 
+        id="p02anim4"
+        begin="p02anim3.end"
+        dur="2s"
+        path="M 0 -50 L 0 20"
+      >
+      </animateMotion>
+    </path>
+  
+    <path id="plane-1-line" d="M64.6821 67.2834V278.636" stroke="url(#paint5_linear_843_773)">
+      <animateMotion 
+        id="l01anim1"
+        begin="0; l01anim3.end"
+        dur="1s"
+        path="M 0 50 L 0 0"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="l01anim2"
+        begin="l01anim1.end"
+        dur="4s"
+        path="M 0 0 L 0 0"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="l01anim3"
+        begin="l01anim2.end"
+        dur="0.4s"
+        path="M 0 0 L 0 50"
+      >
+      </animateMotion>
+    </path>
+  
+    <path id="plane-1" d="M82.2207 64.5358C83.5905 66.3114 81.9776 68.8814 79.7643 68.5204C77.1877 68.1001 74.6537 67.784 72.1379 67.5736C70.8176 68.8764 67.9754 69.7777 64.6821 69.7777C61.3898 69.7777 58.5483 68.8769 57.2275 67.5747C54.7222 67.7844 52.1876 68.0994 49.6003 68.5211C47.387 68.8818 45.7736 66.3114 47.1433 64.5358L50.5192 60.1596V56.9625C50.5192 56.2187 51.123 55.6139 51.8679 55.6139C52.5221 55.6139 53.0659 56.0791 53.1897 56.6983L54.5657 54.9146V51.5674C54.5657 50.8235 55.1695 50.2187 55.9143 50.2187C56.6136 50.2187 57.182 50.7535 57.2496 51.436L61.31 46.1718V38.7527L63.3334 29.9849C63.3334 29.2405 63.9373 28.6362 64.6821 28.6362C65.4265 28.6362 66.0308 29.2405 66.0308 29.9849L68.0547 38.7531V46.1727L72.1146 51.4369C72.1823 50.7544 72.7511 50.2197 73.4504 50.2197C74.1942 50.2197 74.799 50.824 74.799 51.5683V54.9155L76.175 56.6992C76.2983 56.08 76.8422 55.6148 77.4968 55.6148C78.2407 55.6148 78.8455 56.2191 78.8455 56.9635V60.1606L82.2207 64.5358Z" fill="white">
+      <animateMotion 
+        id="p01anim1"
+        begin="0; p01anim4.end"
+        dur="1s"
+        path="M 0 50 L 0 0"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="p01anim2"
+        begin="p01anim1.end"
+        dur="2s"
+        path="M 0 0 L 0 20"
+      >
+      </animateMotion>
+      <animateMotion 
+        id="p01anim3"
+        begin="p01anim2.end"
+        dur="2s"
+        path="M 0 20 L 0 0"
+      >
+      </animateMotion>
+       <animateMotion 
+        id="p01anim4"
+        begin="p01anim3.end"
+        dur="0.4s"
+        path="M 0 0 L 0 50"
+      >
+      </animateMotion>
+    </path>
+</g>
+
+<defs>
+<linearGradient id="paint0_linear_843_773" x1="367.253" y1="89.0052" x2="233.545" y2="320.595" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_843_773" x1="237.548" y1="113.294" x2="323.92" y2="262.896" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint2_linear_843_773" x1="-39.6792" y1="36.4855" x2="139.893" y2="347.514" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint3_linear_843_773" x1="288.4" y1="39.4246" x2="288.4" y2="218.583" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint4_linear_843_773" x1="179.587" y1="142.083" x2="179.587" y2="291.636" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint5_linear_843_773" x1="65.1821" y1="67.2834" x2="65.1821" y2="278.636" gradientUnits="userSpaceOnUse">
+<stop stop-color="white"/>
+<stop offset="1" stop-color="white" stop-opacity="0"/>
+</linearGradient>
+</defs>
+</svg>
