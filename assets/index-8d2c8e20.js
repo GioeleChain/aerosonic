@@ -795,3 +795,119 @@ onReady(()=> {
   mo.observe(document.body,{childList:true,subtree:true});
 });
 })();
+/* === TAKATAKA: override design della main card (append at end) === */
+(()=>{
+
+  function onReady(fn){ if(document.readyState!=="loading") fn(); else document.addEventListener("DOMContentLoaded",fn); }
+
+  function findCards(){
+    const nodes = document.querySelectorAll('[class*="bg-horizont-light"],[class*="dark:bg-horizont"]');
+    return Array.from(nodes).filter(el=>{
+      const c = el.getAttribute("class")||"";
+      return c.includes("flex") && c.includes("justify-between") && c.includes("rounded-lg");
+    });
+  }
+
+  function injectCSS(){
+    if(document.getElementById("takataka-card-css")) return;
+    const css = `
+      @keyframes tt-rotate{to{transform:rotate(360deg)}}
+
+      /* forza reset dei vecchi stili tailwind */
+      .tt-neo{
+        position:relative !important;
+        isolation:isolate;
+        border-radius:20px !important;
+        background:transparent !important;
+        background-image:none !important;
+        border:0 !important;
+        box-shadow:none !important;
+        --tw-ring-offset-shadow:0 0 #0000 !important;
+        --tw-ring-shadow:0 0 #0000 !important;
+        --tw-shadow:0 0 #0000 !important;
+        overflow:hidden !important;
+      }
+
+      /* bordo iridescente + vetro interno */
+      .tt-neo::before{
+        content:"";
+        position:absolute; inset:-1px;
+        border-radius:22px;
+        background:conic-gradient(from 180deg at 50% 50%, #8cf8ff, #a98bff, #ff7fd1, #8cf8ff);
+        filter:blur(.6px);
+        animation:tt-rotate 16s linear infinite;
+        z-index:-2;
+        opacity:.95;
+      }
+      .tt-neo::after{
+        content:"";
+        position:absolute; inset:1.5px;
+        border-radius:18px;
+        background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+        border:1px solid rgba(255,255,255,.06);
+        backdrop-filter:saturate(140%) blur(8px);
+        z-index:-1;
+      }
+
+      /* alone iridescente in alto a dx */
+      .tt-sheen{position:absolute; right:-80px; top:-80px; width:280px; height:280px; border-radius:50%;
+        background:
+          radial-gradient(closest-side, rgba(140,248,255,.22), transparent 70%),
+          radial-gradient(closest-side, rgba(255,127,209,.18), transparent 70%);
+        filter:blur(24px); pointer-events:none;
+      }
+
+      /* hover leggero */
+      .tt-neo{transition:transform .18s ease, box-shadow .18s ease}
+      .tt-neo:hover{transform:translateY(-2px); box-shadow:0 18px 46px rgba(0,0,0,.42)}
+    `;
+    const style=document.createElement("style");
+    style.id="takataka-card-css";
+    style.textContent=css;
+    document.head.appendChild(style);
+  }
+
+  function stripAndSkin(el){
+    if(!el) return;
+
+    // 1) rimuovi utility che creano bordo/ombra/sfondo
+    const REMOVE_EXACT = [
+      "bg-horizont-light","dark:bg-horizont","bg-center","shadow-sm",
+      "border","border-white/80","dark:border-white/10"
+    ];
+    const REMOVE_PREFIX = ["bg-","dark:bg-","shadow","ring","border"];
+    const cleaned = (el.className||"")
+      .split(/\s+/)
+      .filter(Boolean)
+      .filter(c=>!REMOVE_EXACT.includes(c) && !REMOVE_PREFIX.some(p=>c.startsWith(p)));
+    el.className = cleaned.join(" ");
+
+    // 2) hard reset inline per eliminare qualsiasi residuo
+    Object.assign(el.style,{
+      background:"transparent", backgroundImage:"none",
+      border:"0", outline:"0", boxShadow:"none", borderRadius:"20px"
+    });
+    el.style.setProperty("--tw-ring-offset-shadow","0 0 #0000");
+    el.style.setProperty("--tw-ring-shadow","0 0 #0000");
+    el.style.setProperty("--tw-shadow","0 0 #0000");
+
+    // 3) applica skin
+    if(!el.classList.contains("tt-neo")) el.classList.add("tt-neo");
+    if(!el.querySelector(".tt-sheen")){
+      const s=document.createElement("div"); s.className="tt-sheen"; el.appendChild(s);
+    }
+  }
+
+  function run(){
+    injectCSS();
+    findCards().forEach(stripAndSkin);
+  }
+
+  onReady(()=> {
+    run();
+    // ripeti su navigazioni/rehydration
+    const mo=new MutationObserver(()=>run());
+    mo.observe(document.body,{childList:true,subtree:true});
+  });
+
+})();
