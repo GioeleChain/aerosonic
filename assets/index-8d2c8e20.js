@@ -1007,3 +1007,116 @@ onReady(()=> {
   });
 
 })();
+/* === TAKATAKA: FIX re-layout senza duplicati + z-index corretto (append at end) === */
+(()=>{
+  function onReady(fn){ if(document.readyState!=="loading") fn(); else document.addEventListener("DOMContentLoaded",fn); }
+  const qsa=(r,s)=>Array.from((r||document).querySelectorAll(s));
+  const byText=(root,keys)=>qsa(root,"a,button,span,div,p").find(n=>{
+    const t=(n.textContent||"").toLowerCase();
+    return keys.some(k=>t.includes(k));
+  })||null;
+
+  function findCard(){
+    const nodes=document.querySelectorAll('[class*="bg-horizont-light"],[class*="dark:bg-horizont"]');
+    return Array.from(nodes).find(el=>{
+      const c=el.className||"";
+      return c.includes("flex") && c.includes("justify-between") && c.includes("rounded-lg");
+    })||null;
+  }
+
+  function css(){
+    if(document.getElementById("tt-hero-fix-css")) return;
+    const style=document.createElement("style");
+    style.id="tt-hero-fix-css";
+    style.textContent=`
+      .tt-neo{ position:relative; z-index:0 } /* la nostra skin resta sotto al contenuto */
+      .tt-neo::before{ z-index:0 } .tt-neo::after{ z-index:0 }
+      .tt-hero{ position:relative; z-index:2 } /* contenuto sopra */
+      .tt-orig{ display:none !important }      /* nasconde layout originale */
+      .tt-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:18px; padding:22px }
+      @media(max-width:980px){ .tt-grid{ grid-template-columns:1fr } .tt-aside{ min-height:160px } }
+      .tt-copy{ display:flex; flex-direction:column; gap:14px }
+      .tt-title{ margin:0; font-weight:800; font-size:clamp(22px,3.2vw,28px) }
+      .tt-sub{ margin:0; color:var(--muted,#a8b0c0); font-size:clamp(13px,1.6vw,16px) }
+      .tt-stats{ display:flex; flex-wrap:wrap; gap:10px }
+      .tt-pill{ padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.05); backdrop-filter:saturate(140%) blur(6px); font-weight:700 }
+      .tt-links{ display:flex; flex-wrap:wrap; gap:10px; font-size:13px; color:var(--muted,#a8b0c0) }
+      .tt-links a{text-decoration:underline}
+      .tt-aside{ position:relative; border-radius:16px; overflow:hidden; }
+      .tt-aside::before{ content:""; position:absolute; inset:-40%; z-index:1;
+        background: conic-gradient(from 200deg at 60% 40%, rgba(140,248,255,.35), rgba(169,139,255,.28), rgba(255,127,209,.28), rgba(140,248,255,.35));
+        filter: blur(40px); animation: tt-spin 16s linear infinite;
+      }
+      @keyframes tt-spin{to{transform:rotate(360deg)}}
+      .tt-cta{ position:absolute; top:16px; right:16px; display:flex; gap:10px; z-index:3 }
+      .tt-btn-primary{ all:unset; cursor:pointer; padding:12px 16px; border-radius:14px;
+        background:linear-gradient(180deg, rgba(140,248,255,.2), rgba(169,139,255,.18)); border:1px solid rgba(255,255,255,.12); font-weight:800 }
+      .tt-btn-ghost{ all:unset; cursor:pointer; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.10) }
+    `;
+    document.head.appendChild(style);
+  }
+
+  function relayout(){
+    const card=findCard();
+    if(!card || card.dataset.ttInit==="1") return;
+
+    css();
+
+    // 1) metti TUTTO l'attuale contenuto dentro un wrapper nascosto (fonte dati)
+    const orig=document.createElement("div");
+    orig.className="tt-orig";
+    while(card.firstChild) orig.appendChild(card.firstChild);
+    card.appendChild(orig);
+
+    // 2) estrai riferimenti (cloniamo testi/KPI; SPOSTIAMO i bottoni veri)
+    const para = qsa(orig,"p").find(p=>(p.textContent||"").length>40) || byText(orig,["liquidity providers","liquidity"]);
+    const tvl  = byText(orig,["tvl"]);
+    const fees = byText(orig,["fees","fee"]);
+    const vol  = byText(orig,["volume"]);
+    const view = byText(orig,["view tokens"]);
+    const list = byText(orig,["list new token","list token"]);
+    const addIncent = byText(orig,["add incentives"]);
+    const deposit = byText(orig,["deposit liquidity","deposit"]);
+
+    // 3) costruisci il nuovo layout
+    const hero = document.createElement("div"); hero.className="tt-hero tt-grid";
+    const left = document.createElement("div"); left.className="tt-copy";
+    const right= document.createElement("div"); right.className="tt-aside";
+    const cta  = document.createElement("div"); cta.className="tt-cta";
+
+    const title=document.createElement("h3"); title.className="tt-title"; title.textContent="Provide Liquidity. Earn More.";
+    const sub  =document.createElement("p");  sub.className="tt-sub";
+    sub.textContent = para ? (para.textContent||"").trim() :
+      "Deeper books, lower slippage. Stake LP to earn protocol incentives.";
+
+    const stats=document.createElement("div"); stats.className="tt-stats";
+    [tvl,fees,vol].forEach(n=>{ if(n){ const w=document.createElement("div"); w.className="tt-pill"; w.appendChild(n.cloneNode(true)); stats.appendChild(w);} });
+
+    const links=document.createElement("div"); links.className="tt-links";
+    if(view) links.appendChild(view.cloneNode(true));
+    if(list){ if(view) links.appendChild(document.createTextNode(" • ")); links.appendChild(list.cloneNode(true)); }
+
+    // bottoni reali spostati (manteniamo i listener)
+    if(deposit){ deposit.classList.add("tt-btn-primary"); cta.appendChild(deposit); }
+    if(addIncent){ addIncent.classList.add("tt-btn-ghost"); cta.appendChild(addIncent); }
+
+    // 4) monta tutto
+    left.appendChild(title);
+    left.appendChild(sub);
+    if(stats.childElementCount) left.appendChild(stats);
+    if(links.childNodes.length) left.appendChild(links);
+
+    hero.appendChild(left);
+    hero.appendChild(right);
+    hero.appendChild(cta);
+
+    card.appendChild(hero);
+    card.dataset.ttInit="1";
+  }
+
+  onReady(()=>{
+    relayout();
+    const mo=new MutationObserver(()=>relayout());
+    mo.observe(document.body,{childList:true,subtree:true});
+  });
+})();
