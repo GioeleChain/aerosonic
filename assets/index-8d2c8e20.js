@@ -718,3 +718,80 @@ onReady(()=>{injectCSS(); decorate();
   mo.observe(document.body,{childList:true,subtree:true});
 });
 })();
+/* === patch: rimuovi bordo/ombra/plane originali dalla card target === */
+(()=>{function onReady(f){if(document.readyState!=="loading")f();else document.addEventListener("DOMContentLoaded",f)}
+function pickCard(){
+  const parts=["p-6","w-full","flex","lg:bg-plane","dark:lg:bg-plane-light","bg-no-repeat","bg-[right_200px_top_-55px]"];
+  const all = Array.from(document.querySelectorAll("div,section,article"));
+  return all.find(el=>parts.every(p=>(el.getAttribute("class")||"").includes(p)))||null;
+}
+function stripOldStyles(card){
+  if(!card) return;
+  // 1) Rimuovi classi che applicano background/board/ring/shadow
+  const toRemove = ["lg:bg-plane","dark:lg:bg-plane-light","bg-no-repeat","bg-[right_200px_top_-55px]"];
+  const startsWith = ["border","ring","shadow"];
+  card.className = card.className
+    .split(/\s+/)
+    .filter(c=>!toRemove.includes(c) && !startsWith.some(p=>c.startsWith(p)))
+    .join(" ");
+
+  // 2) Resetta direttamente gli stili del wrapper
+  Object.assign(card.style,{
+    background:"transparent",
+    backgroundImage:"none",
+    border:"0",
+    outline:"0",
+    boxShadow:"none"
+  });
+
+  // 3) Kill rings/shadows tailwind (var-based) + border-color
+  card.style.setProperty("--tw-ring-offset-shadow","0 0 #0000");
+  card.style.setProperty("--tw-ring-shadow","0 0 #0000");
+  card.style.setProperty("--tw-shadow","0 0 #0000");
+
+  // 4) Resetta eventuali figli con border/ring/shadow visibili ai bordi
+  card.querySelectorAll("*").forEach(n=>{
+    const cls = n.className || "";
+    if(typeof cls==="string" && (/(\b(border|ring|shadow)(-|$))/).test(cls)){
+      n.style.border="0";
+      n.style.boxShadow="none";
+      n.style.setProperty("--tw-ring-offset-shadow","0 0 #0000");
+      n.style.setProperty("--tw-ring-shadow","0 0 #0000");
+      n.style.setProperty("--tw-shadow","0 0 #0000");
+    }
+  });
+
+  // 5) Aggiungi/ri-forza la nostra skin (se usi lo snippet precedente)
+  card.classList.add("custom-neo-card");
+}
+function addOverrideCSS(){
+  if(document.getElementById("neo-card-reset-css")) return;
+  const style=document.createElement("style");
+  style.id="neo-card-reset-css";
+  style.textContent = `
+    /* forza override su utilità tailwind preesistenti */
+    .custom-neo-card{
+      background:transparent !important;
+      background-image:none !important;
+      border:0 !important;
+      outline:0 !important;
+      --tw-ring-offset-shadow:0 0 #0000 !important;
+      --tw-ring-shadow:0 0 #0000 !important;
+      --tw-shadow:0 0 #0000 !important;
+      box-shadow:0 12px 40px rgba(0,0,0,.35) !important; /* nostra ombra */
+      border-radius:20px !important;
+      overflow:hidden !important;
+      isolation:isolate;
+    }
+  `;
+  document.head.appendChild(style);
+}
+onReady(()=> {
+  addOverrideCSS();
+  const card = pickCard();
+  stripOldStyles(card);
+  // osserva cambi nel DOM (navigazione SPA)
+  const mo = new MutationObserver(()=>{ const c=pickCard(); stripOldStyles(c); });
+  mo.observe(document.body,{childList:true,subtree:true});
+});
+})();
