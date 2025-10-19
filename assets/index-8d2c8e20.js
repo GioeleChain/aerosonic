@@ -911,3 +911,172 @@ onReady(()=> {
   });
 
 })();
+/* === TAKATAKA: hard re-layout della hero card (append at end) === */
+(()=>{
+
+  function onReady(fn){ if(document.readyState!=="loading") fn(); else document.addEventListener("DOMContentLoaded",fn); }
+
+  // ——— helpers
+  const qsa = (root,sel)=>Array.from((root||document).querySelectorAll(sel));
+  const byText = (root, needles)=> qsa(root,"*").find(n=>{
+    const t=(n.textContent||"").trim().toLowerCase();
+    return needles.some(s=>t.includes(s));
+  }) || null;
+
+  function findCard(){
+    const nodes = document.querySelectorAll('[class*="bg-horizont-light"],[class*="dark:bg-horizont"]');
+    return Array.from(nodes).find(el=>{
+      const c = el.getAttribute("class")||"";
+      return c.includes("flex") && c.includes("justify-between") && c.includes("rounded-lg");
+    }) || null;
+  }
+
+  function injectCSS(){
+    if(document.getElementById("tt-hero-layout-css")) return;
+    const css = `
+      .tt-neo.tt-layout{
+        display:grid !important;
+        grid-template-columns: 1.4fr 1fr;
+        gap: 18px;
+        padding: 22px !important;
+        min-height: 220px;
+      }
+      @media(max-width: 980px){
+        .tt-neo.tt-layout{ grid-template-columns: 1fr; }
+        .tt-hero-aside{ min-height: 160px; order:-1; }
+        .tt-hero-cta{ position: static; justify-content:flex-start; margin-top:10px }
+      }
+      .tt-hero-copy{ display:flex; flex-direction:column; gap:14px; z-index:1 }
+      .tt-hero-title{ font-size: clamp(22px, 3.2vw, 28px); font-weight:800; margin:0 }
+      .tt-hero-sub{ color: var(--muted, #a8b0c0); font-size: clamp(13px, 1.6vw, 16px); margin:0 }
+      .tt-hero-stats{ display:flex; flex-wrap:wrap; gap:10px }
+      .tt-pill{ padding:10px 12px; border-radius:12px; border:1px solid rgba(255,255,255,.08); background:rgba(255,255,255,.04); backdrop-filter:saturate(140%) blur(6px); font-weight:700 }
+      .tt-hero-links{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; color:var(--muted,#a8b0c0); font-size:13px }
+      .tt-hero-links a{ text-decoration:underline; opacity:.9 }
+      .tt-hero-aside{ position:relative; border-radius:16px; overflow:hidden; isolation:isolate }
+      .tt-hero-aside::before{
+        content:""; position:absolute; inset:-40%; background:
+        conic-gradient(from 200deg at 60% 40%, rgba(140,248,255,.35), rgba(169,139,255,.28), rgba(255,127,209,.28), rgba(140,248,255,.35));
+        filter: blur(40px);
+        animation: tt-sweep 16s linear infinite;
+      }
+      @keyframes tt-sweep{ to{ transform: rotate(360deg)} }
+      .tt-hero-cta{
+        position:absolute; top:16px; right:16px; display:flex; gap:10px; z-index:2;
+      }
+      .tt-btn-primary{ all:unset; cursor:pointer; padding:12px 16px; border-radius:14px;
+        background:linear-gradient(180deg, rgba(140,248,255,.2), rgba(169,139,255,.18));
+        border:1px solid rgba(255,255,255,.12); font-weight:800;
+      }
+      .tt-btn-ghost{ all:unset; cursor:pointer; padding:10px 14px; border-radius:12px; border:1px solid rgba(255,255,255,.10) }
+    `;
+    const style=document.createElement("style");
+    style.id="tt-hero-layout-css";
+    style.textContent=css;
+    document.head.appendChild(style);
+  }
+
+  function relayout(){
+    const card = findCard();
+    if(!card) return;
+
+    // evita doppio lavoro
+    if(card.classList.contains("tt-layout")) return;
+
+    // crea la griglia nuova
+    card.classList.add("tt-layout"); // mantiene già la skin tt-neo che avevamo
+    const left = document.createElement("div"); left.className="tt-hero-copy";
+    const right = document.createElement("div"); right.className="tt-hero-aside";
+    const ctaBar = document.createElement("div"); ctaBar.className="tt-hero-cta";
+
+    // ——— prendi elementi reali da dentro la card
+    const depositBtn = byText(card,["deposit","liquidity"]); // "Deposit Liquidity"
+    const viewLink   = byText(card,["view tokens"]);
+    const listLink   = byText(card,["list new token","list token"]);
+
+    // KPI: trova nodi con TVL / Fees / Volume
+    const statNodes = [];
+    const tvlNode = byText(card,["tvl"]);
+    const feeNode = byText(card,["fees","fee"]);
+    const volNode = byText(card,["volume"]);
+    [tvlNode,feeNode,volNode].forEach(n=>{ if(n && !statNodes.includes(n)) statNodes.push(n); });
+
+    // primo paragrafo descrizione
+    const para = qsa(card,"p,div").find(n=>{
+      const t=(n.textContent||"").toLowerCase();
+      return t.includes("liquidity providers") || t.includes("lp") || (t.length>60 && t.includes("liquidity"));
+    });
+
+    // ——— costruisci blocchi semantici
+    const title = document.createElement("h3");
+    title.className="tt-hero-title";
+    title.textContent = "Provide Liquidity. Earn More."; // titolo nostro
+
+    const sub = document.createElement("p");
+    sub.className="tt-hero-sub";
+    sub.textContent = "Deeper books, lower slippage. Stake LP to earn protocol incentives."; // sottotitolo nostro
+
+    // se esiste un paragrafo originale, usiamone il testo come fallback
+    if(para){
+      const txt=(para.textContent||"").trim();
+      if(txt.length>30) sub.textContent = txt;
+    }
+
+    const stats = document.createElement("div"); stats.className="tt-hero-stats";
+    statNodes.forEach(n=>{
+      // muovi il nodo reale dentro una pill custom
+      const wrap=document.createElement("div"); wrap.className="tt-pill";
+      wrap.appendChild(n);
+      stats.appendChild(wrap);
+    });
+
+    const links = document.createElement("div"); links.className="tt-hero-links";
+    if(viewLink){ links.appendChild(viewLink); }
+    if(listLink){
+      const sep=document.createTextNode("  •  ");
+      if(viewLink) links.appendChild(sep);
+      links.appendChild(listLink);
+    }
+
+    // CTA primaria in alto a destra
+    if(depositBtn){
+      depositBtn.classList.add("tt-btn-primary");
+      ctaBar.appendChild(depositBtn);
+    }
+
+    // CTA secondaria (opzionale) – crea un ghost “Add incentives” se esiste
+    const addIncentives = byText(card,["add incentives","incentives"]);
+    if(addIncentives){
+      addIncentives.classList.add("tt-btn-ghost");
+      ctaBar.appendChild(addIncentives);
+    }
+
+    // ——— montaggio nella card
+    // metti i nuovi contenitori in testa alla card, spostando i vecchi dentro
+    card.prepend(left);
+    card.appendChild(right);
+    card.appendChild(ctaBar);
+
+    left.appendChild(title);
+    left.appendChild(sub);
+    if(stats.childElementCount) left.appendChild(stats);
+    if(links.childNodes.length) left.appendChild(links);
+
+    // nascondi tutto ciò che è rimasto “orfano” visivamente ma non spostato
+    qsa(card,":scope > *").forEach(n=>{
+      if([left,right,ctaBar].includes(n)) return;
+      // se il nodo contiene qualcuno dei nostri elementi spostati lo lasciamo
+      const hasMovedChild = !!(n.contains(title) || n.contains(sub) || n.contains(stats) || n.contains(links) || n.contains(ctaBar));
+      if(!hasMovedChild) n.style.display="none";
+    });
+  }
+
+  onReady(()=> {
+    injectCSS();
+    relayout();
+    // ri-applica ad ogni mutazione (navigazioni SPA)
+    const mo=new MutationObserver(()=>relayout());
+    mo.observe(document.body,{childList:true,subtree:true});
+  });
+
+})();
