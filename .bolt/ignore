@@ -1,0 +1,20 @@
+# CARTELLE CON ASSET PESANTI — NON SERVONO ALL'AI PER IL RESTYLE
+assets/
+fonts/
+images/
+svg/
+tokens/
+partners/
+
+# FILE BINARI/MEDIA
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.svg
+*.ico
+*.mp4
+*.mov
+*.pdf
+*.zip
