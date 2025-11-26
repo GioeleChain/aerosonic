@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "projects": [
+    {
+      "type": "mapping",
+      "name": "aerosonic-localhost",
+      "fileSystemPath": "C:/Users/DaniF/Documents/GitHub/aerosonic",
+      "url": "http://localhost:5500/"
+    }
+  ]
+}
